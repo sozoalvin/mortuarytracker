@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WeCare</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+      <script type = "application/json" src="./src"></script>
+
+  <style type="text/css">
+
+  html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  flex: 1 0 auto;
+}
+
+   body { background: #FFCC00 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+<!-- <link rel="stylesheet" href="assets/styles.css"> -->
+
+h1 {
+  color: white;
+  margin: 0;
+  padding: 15px;
+}
+
+#container {
+  text-align: center;
+  margin: 0;
+}
+
+#reader{
+    margin-top: 15px;
+}
+
+#qr-reader{
+  margin: auto;
+  width: calc(100% - 20px);
+  max-width: 700px;
+}
+
+#qr-reader-result{
+  margin: auto;
+  width: calc(100% - 20px);
+  max-width: 700px;
+}
+
+
+#qr-canvas {
+  margin: auto;
+  width: calc(100% - 20px);
+  max-width: 400px;
+}
+
+#btn-scan-qr {
+  cursor: pointer;
+}
+
+#btn-scan-qr img {
+  height: 10em;
+  padding: 15px;
+  margin: 15px;
+  background: white;
+}
+
+#qr-result {
+  font-size: 1.2em;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 700px;
+  background-color: white;
+}
+
+</style>
+
+<script type = "application/json" src="../src/html5-qrcode-demo.js"></script>
+
+</head>
+<body>
+
+ {{template "new-navbar" . }}
+
+<div class="container maincontainerindex">
+  <div class="row mt-5">
+    <div class="col-sm">
+    </div>
+    <div class="col-sm shadow-lg">
+      <!-- <img src="assets/rs2.png"> -->
+    </div>
+    <div class="col-sm">
+    </div>
+  </div>
+</div>
+
+<div class="container pb-5"></div> 
+
+<div class="container pb-4"></div>
+
+<div id="container">
+    <h1>This page is purely for checking up on Case ID</h1>
+    <p>Please Enter Casualty Number to Look Up</p>
+        <!-- <form action="/login" method="post"> -->
+        <!--     Username:<input type="text" name="username"> -->
+        <!--     Password:<input type="password" name="password"> -->
+        <!--     <input type="submit" value="Login"> -->
+        <!-- </form> -->
+<form action="/searchCasualty" method="POST">
+    <input type="text" name="casualtyCaseID" required minlength="2" maxlength="17" size="15" placeholder="Enter Casualty ID">
+    <input type="submit" value="Search">
+</form>
+
+</div>
+
+
+</body>
+
+<!-- {{template "new-footer"}} -->
+
+</html>
+
+<script src="src/html5-qrcode.min.js"></script>

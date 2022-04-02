@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WeCare</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+      <script type = "application/json" src="./src"></script>
+
+  <script>
+    function docReady(fn) {
+        // see if DOM is already available
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            // call on next available tick
+            setTimeout(fn, 1);
+        } else {
+            document.addEventListener("DOMContentLoaded", fn);
+        }
+    }
+
+docReady(function() {
+    var resultContainer = document.getElementById('qr-reader-results');
+    var lastResult, countResults = 0;
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr-reader", {
+            fps: 10,
+            qrbox: 475
+        });
+
+    function sendRequest(decodedText) {
+
+        var xhr = new XMLHttpRequest();
+        var role = document.getElementById('role');
+        console.log(role.innerHTML)
+
+        xhr.open("POST", '/process', true);
+
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() { // Call a function when the state changes.
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                console.log("js side says process finished");
+            }
+        }
+
+        let preparedRole = `{"Role":"${role.innerHTML}",`
+        console.log(preparedRole);
+        let primeDecodedText = decodedText.substring(1)
+        let teamMemberName = document.getElementById("teamMemberName").value;
+        if (teamMemberName == "") {
+            return false
+        }
+              console.log("failed but lets still go ahead - erroir")
+        let preparedTeamMember = `"TeamMember":"${teamMemberName}",`
+        let postData = preparedRole + preparedTeamMember + primeDecodedText
+        console.log(postData)
+        xhr.send(postData);
+    }
+
+    function onScanSuccess(decodedText, decodedResult) {
+              var audioSuccesful = new Audio('../assets/beepSuccessful.mp3');
+              var audioFailed = new Audio('../assets/beepFailed.mp3');
+
+        if (decodedText !== lastResult) {
+            ++countResults;
+            lastResult = decodedText;
+            console.log(`Scan result = ${decodedText}`, decodedResult);
+            response = sendRequest(decodedText)
+
+            if (response == false) {
+                audioFailed.play();
+                resultContainer.innerHTML = `<div>form values is/are empty. Casualty is NOT processed. Click Below to Restart Scanner and input form values</div>`;
+            } else {
+                      resultContainer.innerHTML = `<div>[${countResults}] - ${decodedText}. Casualty processed successfully. <br>You can continue to scan the next casualty</div>`;
+                audioSuccesful.play();
+            }
+
+            console.log("line processed");
+
+            // Optional: To close the QR code scannign after the result is found
+            <!-- html5QrcodeScanner.clear(); -->
+          }
+    }
+
+    // Optional callback for error, can be ignored.
+    function onScanError(qrCodeError) {
+        // This callback would be called in case of qr code scan error or setup error.
+        // You can avoid this callback completely, as it can be very verbose in nature.
+    }
+
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+});
+
+</script>
+
+  <style type="text/css">
+
+  html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  flex: 1 0 auto;
+}
+
+   body { background: #FFCC00 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+<!-- <link rel="stylesheet" href="assets/styles.css"> -->
+
+h1 {
+  color: white;
+  margin: 0;
+  padding: 15px;
+}
+
+#container {
+  text-align: center;
+  margin: 0;
+}
+
+#reader{
+    margin-top: 15px;
+}
+
+#qr-reader{
+  margin: auto;
+  width: calc(100% - 20px);
+  max-width: 700px;
+}
+
+#qr-reader-result{
+  margin: auto;
+  width: calc(100% - 20px);
+  max-width: 700px;
+}
+
+
+#qr-canvas {
+  margin: auto;
+  width: calc(100% - 20px);
+  max-width: 400px;
+}
+
+#btn-scan-qr {
+  cursor: pointer;
+}
+
+#btn-scan-qr img {
+  height: 10em;
+  padding: 15px;
+  margin: 15px;
+  background: white;
+}
+
+#qr-result {
+  font-size: 1.2em;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 700px;
+  background-color: white;
+}
+
+</style>
+
+<script type = "application/json" src="../src/html5-qrcode-demo.js"></script>
+
+</head>
+<body>
+
+ {{template "new-navbar" . }}
+
+<div class="container maincontainerindex">
+  <div class="row mt-5">
+    <div class="col-sm">
+    </div>
+    <div class="col-sm shadow-lg">
+      <!-- <img src="assets/rs2.png"> -->
+    </div>
+    <div class="col-sm">
+    </div>
+  </div>
+</div>
+
+<div class="container pb-5"></div> 
+<!-- <div class="container bg-light ml-10 mr-10 rounded-lg shadow-sm pt-2 pl-5 pr-6 mb-3 bg-white"> -->
+<!-- <div class="container"> -->
+<!--     <h3>Take a Picture of the QR code. Your Role: {{.U}}</h3> -->
+
+
+<!-- <form method="post"> --> 
+
+<!--     <div class="form-group pt-1"> -->
+<!--     <label for="exampleFormControlInput1"></label> -->
+<!--     <input type="text" class="form-control" name="searchtext" placeholder="Fried Chicken .."> -->
+<!--   </div> -->
+<!--       {{/* <input type="submit"> */}} -->
+<!--       <button type="submit" name="searchFood" class="btn btn-dark text-justify">Search</button> -->
+<!--       <div class ="container pb-3"></div> -->
+
+<!-- </form> -->
+
+<!-- </div></div> -->
+
+<div class="container pb-4"></div>
+
+<!-- this is the new qr code scanner -->
+<!-- <div style="width: 500px" id="reader"></div> -->
+<!-- <div id="qr-reader" style="width:500px"></div> -->
+<!-- <div id="qr-reader-results"></div> -->
+ <!-- new stuff added here for the qr code scanner -->
+<div id="container">
+    <h1>QR Code Scanner</h1>
+    <h2>Scanning For: <div id="role">{{.U}}</div></h2>
+    <p>Please allow camera permissions on your device if camera doesn't start automatically.</p>
+
+<input type="text" id="teamMemberName" name="teamMemberName" required minlength="2" maxlength="17" size="15" placeholder="Enter Your Name">
+
+    <div style="width: 750px" id="reader"></div>
+    <div id="qr-reader" style="width:750px"></div>
+    <div id="qr-reader-results"></div>
+    Click Below to Refresh QR Code Scanner<br>
+    <a id="btn-scan-qr" href="/">
+        <img src="https://uploads.sitepoint.com/wp-content/uploads/2017/07/1499401426qr_icon.svg">
+    <a/>
+
+    <canvas hidden="" id="qr-canvas"></canvas>
+
+    <div id="qr-result" hidden="">
+        <b>Data:</b> <span id="outputData"></span>
+    </div>
+</div>
+
+
+</body>
+
+<!-- {{template "new-footer"}} -->
+
+</html>
+
+<script src="src/html5-qrcode.min.js"></script>

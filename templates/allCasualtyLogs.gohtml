@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KV Food Delivery</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+  <style type="text/css">
+
+
+
+  html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  flex: 1 0 auto;
+}
+
+    body { background: #FFCC00 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+    <link rel="stylesheet" href="assets/styles.css">
+    input[type="quantity"]{
+    text-align:center;
+    }
+
+</style>
+
+
+
+</head>
+<body>
+
+{{template "new-navbar" .}}
+
+<div class="container maincontainerindex">
+  <div class="row">
+    <div class="col-sm">
+    </div>
+    <div class="col-sm mt-5">
+      <!-- <img src="assets/rs2.png"> -->
+    </div>
+    <div class="col-sm">
+    </div>
+  </div>
+</div>
+
+<div class="container p-1">
+<h3>All Casualty Logs here:</h3>
+</div>
+
+{{range $KEY, $VALUE := .Data}}
+
+<div class="container pb-5"></div> 
+<div class="container bg-light ml-10 mr-10 rounded-lg shadow-sm pt-2 pl-5 pr-6 mb-3 bg-white">
+
+{{if $VALUE.LastAction}}
+   Latest Action on Casualty: {{$VALUE.LastAction}}
+{{end}}
+<br>
+{{if $VALUE.LastActionTime}}
+   Latest Action on Casualty: {{$VALUE.LastActionTime}}
+{{end}}
+
+<br>-------------<br>
+
+Case ID: {{$KEY}}
+
+{{if $VALUE.Name}}
+   <br>Case id's name: {{$VALUE.Name}}
+{{end}}
+
+{{if $VALUE.Nric}}
+   <br>Case id's NRIC: {{$VALUE.Nric}}
+{{end}}
+
+
+{{if $VALUE.MortuaryDataCreatedDate}}
+   <br>Case data was created at mortuary at: {{$VALUE.MortuaryDataCreatedDate}}
+{{end}}
+
+{{if $VALUE.BodyCleanIn}}
+<br>   Case checked in for cleaning at: {{$VALUE.BodyCleanIn}}
+{{end}}
+
+{{if $VALUE.BodyCleanOut}}
+ <br>  Case checked out from cleaning at: {{$VALUE.BodyCleanOut}}
+{{end}}
+
+{{if $VALUE.BodyDressIn}}
+   <br>Case checked in dressing in: {{$VALUE.BodyDressIn}}
+{{end}}
+
+{{if $VALUE.BodyDressOut}}
+   <br>Case checked out from dressing at: {{$VALUE.BodyDressOut}}
+{{end}}
+
+{{if $VALUE.EcoffinIn}}
+   <br>Case checked in at ecoffin in: {{$VALUE.EcoffinIn}}
+{{end}}
+
+{{if $VALUE.EcoffinOut}}
+   <br>Case checked out at ecoffin at: {{$VALUE.EcoffinOut}}.
+{{end}}
+
+{{if $VALUE.InPro}}
+   <br>Case Inproed at Mortuary at: {{$VALUE.InPro}}
+{{end}}
+
+{{if $VALUE.OutPro}}
+   <br>Case OutProed at: {{$VALUE.OutPro}}
+{{end}}
+
+{{if $VALUE.PeGoStorage}}
+   <br>Case moving from PE to PE storage: {{$VALUE.PeGoStorage}}
+{{end}}
+
+{{if $VALUE.PeInPro}}
+   <br>Case check in at PE: {{$VALUE.PeInPro}}
+{{end}}
+
+{{if $VALUE.PeIntoStorage}}
+   <br>Case checked in at PE storage area: {{$VALUE.PeIntoStorage}}
+{{end}}
+
+{{if $VALUE.PeOutPro}}
+   <br>Case checked out from PE at: {{$VALUE.PeOutPro}}
+{{end}}
+
+{{if $VALUE.PeOutofStorage}}
+<br>Case PE moved out of storage lockers: {{$VALUE.PeOutofStorage}}
+{{end}}
+
+{{if $VALUE.ProcessedCleanIn}}
+   <br>Case checked into processed cleaned area for storage: {{$VALUE.ProcessedCleanIn}}
+{{end}}
+
+{{if $VALUE.ProcessedCleanOut}}
+   <br>Case checked out of processed cleaned storage area : {{$VALUE.ProcessedCleanOut}}
+{{end}}
+
+{{if $VALUE.QRCodeDataCreatedDate}}
+  <br>Case's QR code was created on : {{$VALUE.QRCodeDataCreatedDate}}
+{{end}}
+
+{{if $VALUE.TransportIn}}
+   <br>Case checked in with Transport: {{$VALUE.TransportIn}}
+{{end}}
+
+{{if $VALUE.TransportOut}}
+   <br>Case checked out with Transport: {{$VALUE.TransportOut}}
+{{end}}
+
+{{if $VALUE.UnprocessedIn}}
+   <br>Case checked into storage (unprocessed yet): {{$VALUE.UnprocessedIn}}
+{{end}}
+
+{{if $VALUE.UnprocessedOut}}
+   <br>Case checked out of storage (unprocessed yet): {{$VALUE.UnprocessedOut}}
+{{end}}
+
+</div>
+{{end}}
+</body>
+
+<!-- {{template "new-footer"}} -->
+</html> 
+
