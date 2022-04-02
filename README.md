@@ -4,7 +4,7 @@
 The Mortuary tracker web app allows casualties to be tracked in times of war. Think of war zones, limited land and resources, the military will have to set up the mortuary in different areas. You can view it like today's microservice structure
 
 Here's an oversimplified view: 
-<img src = "https://imgur.com/TQAtuiz" width="700">
+<img src = "https://i.imgur.com/TQAtuiz.png" width="700">
 
 Think of the sections as vertices while the arrows as edges. 
 
