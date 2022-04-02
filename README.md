@@ -1,8 +1,14 @@
 <link rel="stylesheet" href="styles.css">
 
 # The Mortuary QR Code Scanner that takes in JSON tags
-This scanner takes in json strings and if the user is logged in with a name registered on the scanner, the application sends a post request to the server. This is how the server receives the information and keeps the information of casualty updated. As different scanners scan the same QR Code (even at the same time), the application itself handles all its concurrency using Go's mutexes found in the sync package
+The Mortuary tracker web app allows casualties to be tracked in times of war. Think of war zones, limited land and resources, the military will have to set up the mortuary in different areas. You can view it like today's microservice structure
 
+Here's an oversimplified view: 
+<img src = "https://imgur.com/TQAtuiz" width="700">
+
+Think of the sections as vertices while the arrows as edges. 
+
+This scanner takes in json strings and if the user is logged in with a name registered on the scanner, the application sends a post request to the backend server. This is how the server receives the information and keeps the information of casualty updated as the casualties are put through different sectionsd. As different scanners scan the same QR Code (even at the same time), the application itself handles all its concurrency using Go's mutexes found in the sync package to ensure no race conditions and data integrity.
 
 <h2>Introduction</h2>
 
