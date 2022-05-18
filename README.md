@@ -43,5 +43,3 @@ This scanner takes in json strings and if the user is logged in with a name regi
 <br>
 One of the improvements include using SNS and SQS for a fan out type of messaging pattern. Bearing in mind the constraints such a max messages/ second and the need for standard/fifo queue, one can go on further in implementing a logging service through the message bus pattern.
 </p>
-
-
