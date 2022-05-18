@@ -36,3 +36,12 @@ This scanner takes in json strings and if the user is logged in with a name regi
 
 <p>When production flag is activated, requests routed on port:80 will be automatically routed to port:443</p>
 <p>If you open up chrome's dev tools, you'll see HTTP/1.1 and then see a HTTP/2 almost immedidately</p>
+
+<h2>Improvements</h2>
+<p>As the design gets implemented, one will have to ponder about scale. When looking at each station as a microservice, then we can look at the other aspects such as async communication. Afterall, why throttle our own services via http calls when we can use async services. 
+
+<br>
+One of the improvements include using SNS and SQS for a fan out type of messaging pattern. Bearing in mind the constraints such a max messages/ second and the need for standard/fifo queue, one can go on further in implementing a logging service through the message bus pattern.
+</p>
+
+
